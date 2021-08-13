@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.akmcircuits</groupId>
+    <artifactId>octopart-api</artifactId>
+    <version>1.0</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
+        <graphql-maven-plugin.version>1.17</graphql-maven-plugin.version>
+        <graphql-maven-plugin.packageName>com.akmcircuits.octopart.api</graphql-maven-plugin.packageName>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-java-extended-scalars</artifactId>
+            <version>16.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.graphql-java-generator</groupId>
+            <artifactId>graphql-java-runtime</artifactId>
+            <version>${graphql-maven-plugin.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.graphql-java-generator</groupId>
+                <artifactId>graphql-maven-plugin</artifactId>
+                <version>${graphql-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generateClientCode</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <packageName>${graphql-maven-plugin.packageName}</packageName>
+                    <customScalars>
+                        <customScalar>
+                            <graphQLTypeName>JSON</graphQLTypeName>
+                            <javaType>java.lang.Object</javaType>
+                            <graphQLScalarTypeStaticField>graphql.scalars.ExtendedScalars.Json
+                            </graphQLScalarTypeStaticField>
+                        </customScalar>
+                        <customScalar>
+                            <graphQLTypeName>DateTime</graphQLTypeName>
+                            <javaType>java.time.OffsetDateTime</javaType>
+                            <graphQLScalarTypeStaticField>graphql.scalars.ExtendedScalars.DateTime
+                            </graphQLScalarTypeStaticField>
+                        </customScalar>
+                    </customScalars>
+                    <copyRuntimeSources>false</copyRuntimeSources>
+                    <generateDeprecatedRequestResponse>false</generateDeprecatedRequestResponse>
+                    <separateUtilityClasses>true</separateUtilityClasses>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
